@@ -57,8 +57,9 @@ namespace GL.ProjectManagement.API.Services
         }
         public async System.Threading.Tasks.Task<string> CreateTask(TaskCreation newtask)
         {
+            var count = this.Tasks.Count;
             var task = new Task { 
-                Id = Guid.NewGuid().ToString(),
+                Id = count++.ToString(),
                 AssignedToUserId = newtask.AssignedToUserId, 
                 Detail = newtask.Detail, 
                 ProjectId = newtask.ProjectId, 

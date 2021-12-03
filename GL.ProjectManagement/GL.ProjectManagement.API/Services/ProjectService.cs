@@ -1,5 +1,6 @@
 ﻿using GL.ProjectManagement.API.DTOs;
 using GL.ProjectManagement.API.Interfaces;
+using GL.ProjectManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +10,89 @@ namespace GL.ProjectManagement.API.Services
 {
     public class ProjectService : IProjectService
     {
-        public Task<string> CreateProject(ProjectCreation newProject)
+        private IList<Project> Projects;
+
+        public ProjectService()
         {
-            throw new NotImplementedException();
+            this.Projects = new List<Project>();
+        }
+        public async Task<List<ProjectInfo>> GetAllProjects()
+        {
+            return await System.Threading.Tasks.Task.Run(() =>
+            {
+                var result = new List<ProjectInfo>();
+                foreach (var project in Projects)
+                {
+                    result.Add(new ProjectInfo { Id = project.Id, Detail = project.Detail, Name = project.Name, CreatedOn = project.CreatedOn.ToString() });
+                }
+                return result;
+            });
         }
 
-        public Task<bool> DeleteProject(string id)
+        public async Task<ProjectInfo> GetProject(string id)
         {
-            throw new NotImplementedException();
+            return await System.Threading.Tasks.Task.Run(() =>
+            {
+                var res = Projects.FirstOrDefault(p => p.Id == id);
+                if (res == null)
+                {
+                    return null;
+                }
+                return new ProjectInfo { Id = res.Id, 
+                    Detail = res.Detail, 
+                    Name = res.Name, 
+                    CreatedOn = res.CreatedOn.ToString() };
+            });
+        }
+        public async Task<string> CreateProject(ProjectCreation newProject)
+        {
+            var count = this.Projects.Count;
+            var project = new Project { 
+                Id = count++.ToString(), 
+                Detail = newProject.Detail, 
+                Name = newProject.Name, 
+                CreatedOn = DateTime.Now };
+            await System.Threading.Tasks.Task.Run(() => {
+
+                Projects.Add(project);
+
+            });
+            return $"Project created successfully with id: {project.Id}";
         }
 
-        public Task<List<ProjectInfo>> GetAllProjects()
+        public async Task<bool> DeleteProject(string id)
         {
-            throw new NotImplementedException();
-        }
+            return await System.Threading.Tasks.Task.Run(() =>
+            {
+                try
+                {
+                    var ProjectToRemove = Projects.Single(x => x.Id == id);
+                    Projects.Remove(ProjectToRemove);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
+        }      
 
-        public Task<ProjectInfo> GetProject(string id)
+        public async Task<string> UpdateProject(ProjectUpdate updatedProject)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> UpdateProject(ProjectUpdate updatedProject)
-        {
-            throw new NotImplementedException();
+            return await System.Threading.Tasks.Task.Run(() =>
+            {
+                var project = Projects.FirstOrDefault(x => x.Id == updatedProject.Id);
+                if (project != null)
+                {
+                    project.Name = updatedProject.Name;
+                    project.Detail = updatedProject.Detail;
+                    return project.Id;
+                }
+                else
+                {
+                    return null;
+                }
+            });
         }
     }
 }
