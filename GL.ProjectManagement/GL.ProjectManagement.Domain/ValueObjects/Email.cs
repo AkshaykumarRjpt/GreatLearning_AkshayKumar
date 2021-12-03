@@ -30,5 +30,10 @@ namespace GL.ProjectManagement.Domain.ValueObjects
         {
             return email.ToString();
         }
+
+        public override string ToString()
+        {
+            return EmailAddress;
+        }
     }
 }

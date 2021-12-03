@@ -1,4 +1,5 @@
 ﻿using GL.ProjectManagement.API.DTOs;
+using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectManagement.Domain.Exceptions;
 using GL.ProjectManagement.Domain.ValueObjects;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private IList<User> Users;
 
