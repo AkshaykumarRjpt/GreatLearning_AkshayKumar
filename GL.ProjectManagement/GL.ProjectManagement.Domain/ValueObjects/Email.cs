@@ -25,5 +25,10 @@ namespace GL.ProjectManagement.Domain.ValueObjects
         {
            return new Email(email);
         }
+
+        public static implicit operator string(Email email)
+        {
+            return email.ToString();
+        }
     }
 }

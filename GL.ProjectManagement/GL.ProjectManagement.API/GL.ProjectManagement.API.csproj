@@ -12,4 +12,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GL.ProjectManagement.Domain\GL.ProjectManagement.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
