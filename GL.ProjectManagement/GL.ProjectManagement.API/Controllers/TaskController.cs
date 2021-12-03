@@ -1,5 +1,6 @@
 ﻿using GL.ProjectManagement.API.DTOs;
 using GL.ProjectManagement.API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Controllers
 {
+    [Authorize]
     [ApiController]
     public class TaskController : ControllerBase
     {

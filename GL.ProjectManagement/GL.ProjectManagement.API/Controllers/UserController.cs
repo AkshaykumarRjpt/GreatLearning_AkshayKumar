@@ -1,5 +1,6 @@
 ﻿using GL.ProjectManagement.API.DTOs;
 using GL.ProjectManagement.API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Controllers
 {
+    [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,6 +22,7 @@ namespace GL.ProjectManagement.API.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/User")]
         public async Task<IActionResult> GetAll()
@@ -41,6 +44,7 @@ namespace GL.ProjectManagement.API.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/User")]
         public async Task<IActionResult> Create(UserCreation user)

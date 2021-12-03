@@ -13,5 +13,7 @@ namespace GL.ProjectManagement.API.Interfaces
         public Task<string> CreateUser(UserCreation user);
         public Task<string> UpdateUser(UserUpdate updatedUser);
         public Task<bool> DeleteUser(string id);
+
+        public Task<bool> isValidUser(LoginCredentials loginCredentials);
     }
 }

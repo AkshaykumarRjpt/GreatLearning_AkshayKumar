@@ -1,5 +1,6 @@
 using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,10 +9,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API
@@ -31,10 +34,53 @@ namespace GL.ProjectManagement.API
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<IProjectService, ProjectService>();
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSingleton<IAuthenticationService, JWTAuthenticationService>();
+            services.AddAuthentication(x =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GL.ProjectManagement.API", Version = "v1" });
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("AEZAKMIPANZERAEZAKMIPANZER")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        }
+                        ,
+                        new string[] { }
+                    }
+                }
+            );
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "GL.ProjectManagement.API", Version = "v1" });
             });
         }
 
@@ -52,6 +98,7 @@ namespace GL.ProjectManagement.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

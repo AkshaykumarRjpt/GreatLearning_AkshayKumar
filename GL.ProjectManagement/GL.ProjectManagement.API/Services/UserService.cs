@@ -119,7 +119,22 @@ namespace GL.ProjectManagement.API.Services
                 }
 
             });
-        }      
+        }
 
+        public async Task<bool> isValidUser(LoginCredentials loginCredentials)
+        {
+            return await System.Threading.Tasks.Task.Run(() =>
+            {
+                var user = Users.FirstOrDefault(x => x.Email == loginCredentials.Email);
+                if (user != null && user.Password == loginCredentials.Password)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+        }
     }
 }
