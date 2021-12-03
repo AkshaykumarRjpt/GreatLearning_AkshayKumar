@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GL.ProjectManagement.Domain.ValueObjects;
+using System;
 
 namespace GL.ProjectManagement.Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace GL.ProjectManagement.Domain.Entities
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }        
-        public string Email { get; set; }
+        public Email Email { get; set; }
         public string Password { get; set; }        
     }
 }
