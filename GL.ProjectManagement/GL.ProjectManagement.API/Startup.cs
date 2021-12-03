@@ -29,6 +29,7 @@ namespace GL.ProjectManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<ITaskService, TaskService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

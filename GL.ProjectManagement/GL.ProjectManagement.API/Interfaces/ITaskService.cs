@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Interfaces
 {
-    interface ITaskService
+    public interface ITaskService
     {
         public Task<List<TaskInfo>> GetAllTasks();
         public Task<TaskInfo> GetTask(string id);
