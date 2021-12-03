@@ -46,7 +46,7 @@ namespace GL.ProjectManagement.API
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("AEZAKMIPANZERAEZAKMIPANZER")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("AKSHAYKUMARRAJPUT")),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
