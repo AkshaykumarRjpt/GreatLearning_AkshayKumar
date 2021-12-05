@@ -71,12 +71,12 @@ namespace GL.ProjectManagement.API.Controllers
         [Route("api/User/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            _logger.LogInformation($"Deleting User with id: {id}");
-            var isDeleteSuccessful = await _userService.DeleteUser(id);
-            if (isDeleteSuccessful == false)
-            {
-                return NotFound($"User not found with {id}");
-            }
+            //_logger.LogInformation($"Deleting User with id: {id}");
+            //var isDeleteSuccessful = await _userService.DeleteUser(id);
+            //if (isDeleteSuccessful == false)
+            //{
+            //    return NotFound($"User not found with {id}");
+            //}
             return Ok($"User with id : {id} deleted");
         }
     }

@@ -3,6 +3,7 @@ using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectManagement.Domain.Exceptions;
 using GL.ProjectManagement.Domain.ValueObjects;
+using GL.ProjectManagement.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,51 +15,62 @@ namespace GL.ProjectManagement.API.Services
     {
         private IList<User> Users;
 
-        public UserService()
+        public readonly IUserRepository UserRepository;
+
+        public UserService(IUserRepository userRepository)
         {
             this.Users = new List<User>();
+            UserRepository = userRepository;
         }
 
         public async Task<List<UserInfo>> GetAllUsers()
         {
-            return await System.Threading.Tasks.Task.Run(() =>
+            return await System.Threading.Tasks.Task.Run(async () =>
             {
                 var result = new List<UserInfo>();
+                var Users = await UserRepository.GetAllUsersAsync();
                 foreach (var user in Users)
                 {
-                    result.Add(new UserInfo 
-                    { Id = user.Id, 
-                        FirstName = user.FirstName, 
-                        LastName = user.LastName, 
-                        Email = user.Email });
+                    result.Add(new UserInfo
+                    {
+                        Id = user.Id.ToString(),
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email
+                    });
                 }
                 return result;
             });
+          
         }
 
         public async Task<UserInfo> GetUser(string id)
         {
-            return await System.Threading.Tasks.Task.Run(() =>
+            return await System.Threading.Tasks.Task.Run(async () =>
             {
-                var res = Users.FirstOrDefault(p => p.Id == id);
+                var res = await UserRepository.GetUserByIdAsync(int.Parse(id));
                 if (res == null)
                 {
                     return null;
                 }
-                return new UserInfo{ Id = res.Id, 
-                    FirstName = res.FirstName, 
-                    LastName = res.LastName, 
-                    Email = res.Email };
+                return new UserInfo
+                {
+                    Id = res.Id.ToString(),
+                    FirstName = res.FirstName,
+                    LastName = res.LastName,
+                    Email = res.Email
+                };
             });
+
+           
         }
 
         public async Task<string> CreateUser(UserCreation user)
         {
-            var count = this.Users.Count;
+            var Users = await UserRepository.GetAllUsersAsync();
             try
             {
-                var newuser = new User { 
-                    Id = count++.ToString(), 
+                var newuser = new User {                      
                     FirstName = user.FirstName, 
                     LastName = user.LastName, 
                     Email = Email.Address(user.Email), 
@@ -71,7 +83,7 @@ namespace GL.ProjectManagement.API.Services
                     }
                     else
                     {
-                        Users.Add(newuser);
+                        UserRepository.CreateUserAsync(newuser);
                     }
                 });
                 return $"User successfully created with id:{newuser.Id}";
@@ -84,16 +96,16 @@ namespace GL.ProjectManagement.API.Services
 
         public async Task<string> UpdateUser(UserUpdate updatedUser)
         {
-            return await System.Threading.Tasks.Task.Run(() =>
+            return await System.Threading.Tasks.Task.Run(async () =>
             {
-                var user = Users.FirstOrDefault(x => x.Id == updatedUser.Id);
+                var user = await UserRepository.GetUserByIdAsync(int.Parse(updatedUser.Id));
                 if (user != null)
                 {
                     user.FirstName = updatedUser.FirstName;
                     user.LastName = updatedUser.LastName;
                     user.Password = updatedUser.Password;
                     user.Email = Email.Address(updatedUser.Email);
-                    return user.Id;
+                    return await UserRepository.UpdateUserAsync(user);
                 }
                 else
                 {
@@ -105,12 +117,13 @@ namespace GL.ProjectManagement.API.Services
         public async Task<bool> DeleteUser(string id)
         {
 
-            return await System.Threading.Tasks.Task.Run(() =>
+            return await System.Threading.Tasks.Task.Run(async () =>
             {
                 try
                 {
-                    var userToRemove = Users.Single(x => x.Id == id);
-                    Users.Remove(userToRemove);
+                    var userToRemove = await UserRepository.GetUserByIdAsync(int.Parse(id));
+                    await UserRepository.DeleteUserAsync(userToRemove);
+                    
                     return true;
                 }
                 catch
@@ -123,6 +136,7 @@ namespace GL.ProjectManagement.API.Services
 
         public async Task<bool> isValidUser(LoginCredentials loginCredentials)
         {
+            var Users = await UserRepository.GetAllUsersAsync();
             return await System.Threading.Tasks.Task.Run(() =>
             {
                 var user = Users.FirstOrDefault(x => x.Email == loginCredentials.Email);

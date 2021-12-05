@@ -1,10 +1,13 @@
 using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.API.Services;
+using GL.ProjectManagement.Domain.Data;
+using GL.ProjectManagement.Domain.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,10 +34,15 @@ namespace GL.ProjectManagement.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<ITaskService, TaskService>();
-            services.AddSingleton<IProjectService, ProjectService>();
-            services.AddSingleton<IAuthenticationService, JWTAuthenticationService>();
+            services.AddDbContext<ProjectManagementDBContext>(options => options.UseInMemoryDatabase("Database"));
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IUserRepository, UserRepository>();
+
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IAuthenticationService, JWTAuthenticationService>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
