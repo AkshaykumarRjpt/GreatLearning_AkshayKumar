@@ -3,6 +3,7 @@ using GL.ProjectManagement.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace GL.ProjectManagement.Domain.Data
@@ -21,8 +22,18 @@ namespace GL.ProjectManagement.Domain.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(x => x.Id);
-            modelBuilder.Entity<User>().OwnsOne(x => x.Email);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Project>().ToTable("Project");
+            modelBuilder.Entity<Task>().ToTable("Task");
+            modelBuilder.Entity<User>().ToTable("User");
+
+            //var userentitybuilder = modelBuilder.Entity<User>();
+            //userentitybuilder.HasKey(x => x.Id);
+            //userentitybuilder.OwnsOne(e => e.Email, 
+            //    p => { p.Property(x => x.EmailAddress).IsRequired(); });
+
 
         }
 

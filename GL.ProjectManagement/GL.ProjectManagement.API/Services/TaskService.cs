@@ -28,9 +28,9 @@ namespace GL.ProjectManagement.API.Services
                 foreach (var task in Tasks)
                 {
                     result.Add(new TaskInfo {                        
-                        AssignedToUserId = task.AssignedToUserId, 
+                        AssignedToUserId = task.AssignedToUserId.ToString(), 
                         Detail = task.Detail, 
-                        ProjectId = task.ProjectId,
+                        ProjectId = task.ProjectId.ToString(),
                         Status = (int)task.Status, 
                         CreatedOn = task.CreatedOn.ToString(),
                         Id = task.Id.ToString()
@@ -52,9 +52,9 @@ namespace GL.ProjectManagement.API.Services
                 }
                 return new TaskInfo { 
                     Id = task.Id.ToString(), 
-                    AssignedToUserId = task.AssignedToUserId, 
+                    AssignedToUserId = task.AssignedToUserId.ToString(), 
                     Detail = task.Detail, 
-                    ProjectId = task.ProjectId, 
+                    ProjectId = task.ProjectId.ToString(), 
                     Status = (int)task.Status, 
                     CreatedOn = task.CreatedOn.ToString() };
             });
@@ -63,9 +63,9 @@ namespace GL.ProjectManagement.API.Services
         {            
             var task = new Task { 
                 
-                AssignedToUserId = newtask.AssignedToUserId, 
+                AssignedToUserId = int.Parse(newtask.AssignedToUserId), 
                 Detail = newtask.Detail, 
-                ProjectId = newtask.ProjectId, 
+                ProjectId = int.Parse(newtask.ProjectId), 
                 Status = Status.New, 
                 CreatedOn = DateTime.Now };
 
@@ -102,8 +102,8 @@ namespace GL.ProjectManagement.API.Services
             if (task != null)
             {
                 task.Detail = UpdatedTask.Detail;
-                task.AssignedToUserId = UpdatedTask.AssignedToUserId;
-                task.ProjectId = UpdatedTask.ProjectId;
+                task.AssignedToUserId = int.Parse(UpdatedTask.AssignedToUserId);
+                task.ProjectId = int.Parse(UpdatedTask.ProjectId);
                 task.Status = UpdatedTask.Status;
                 return await repository.UpdateTaskAsync(task);
             }

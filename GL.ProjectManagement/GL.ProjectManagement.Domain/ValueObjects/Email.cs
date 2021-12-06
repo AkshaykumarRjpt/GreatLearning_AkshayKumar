@@ -12,6 +12,11 @@ namespace GL.ProjectManagement.Domain.ValueObjects
         {
 
         }
+
+        static Email()
+        {
+
+        }
         private Email(string email)
         {
             EmailAddress = email;
@@ -29,6 +34,11 @@ namespace GL.ProjectManagement.Domain.ValueObjects
         public static implicit operator string(Email email)
         {
             return email.ToString();
+        }
+
+        public static explicit operator Email(string email)
+        {
+            return Address(email);
         }
 
         public override string ToString()
