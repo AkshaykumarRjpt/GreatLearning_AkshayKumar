@@ -13,13 +13,10 @@ namespace GL.ProjectManagement.API.Services
 {
     public class UserService : IUserService
     {
-        private IList<User> Users;
-
         public readonly IUserRepository UserRepository;
 
         public UserService(IUserRepository userRepository)
         {
-            this.Users = new List<User>();
             UserRepository = userRepository;
         }
 

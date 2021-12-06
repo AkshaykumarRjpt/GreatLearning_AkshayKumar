@@ -2,6 +2,7 @@
 using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectManagement.Domain.Enums;
+using GL.ProjectManagement.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +11,30 @@ using System.Linq;
 namespace GL.ProjectManagement.API.Services
 {
     public class TaskService : ITaskService
-    {
-        private IList<Task> Tasks;
+    {        
+        private readonly ITaskRepository repository;
 
-        public TaskService()
-        {
-            this.Tasks = new List<Task>();
+        public TaskService(ITaskRepository repository)
+        {            
+            this.repository = repository;
         }
 
         public async System.Threading.Tasks.Task<List<TaskInfo>> GetAllTasks()
         {
+            var Tasks = await repository.GetAllTasksAsync();
             return await System.Threading.Tasks.Task.Run(() =>
             {
                 var result = new List<TaskInfo>();
                 foreach (var task in Tasks)
                 {
-                    result.Add(new TaskInfo {
-                        Id = task.Id, 
+                    result.Add(new TaskInfo {                        
                         AssignedToUserId = task.AssignedToUserId, 
                         Detail = task.Detail, 
                         ProjectId = task.ProjectId,
                         Status = (int)task.Status, 
-                        CreatedOn = task.CreatedOn.ToString() });
+                        CreatedOn = task.CreatedOn.ToString(),
+                        Id = task.Id.ToString()
+                    });
                 }
                 return result;
             });
@@ -39,15 +42,16 @@ namespace GL.ProjectManagement.API.Services
 
         public async System.Threading.Tasks.Task<TaskInfo> GetTask(string id)
         {
+            var Tasks = await repository.GetAllTasksAsync();
             return await System.Threading.Tasks.Task.Run(() =>
             {
-                var task = Tasks.FirstOrDefault(p => p.Id == id);
+                var task = Tasks.FirstOrDefault(p => p.Id == int.Parse(id));
                 if (task == null)
                 {
                     return null;
                 }
                 return new TaskInfo { 
-                    Id = task.Id, 
+                    Id = task.Id.ToString(), 
                     AssignedToUserId = task.AssignedToUserId, 
                     Detail = task.Detail, 
                     ProjectId = task.ProjectId, 
@@ -56,10 +60,9 @@ namespace GL.ProjectManagement.API.Services
             });
         }
         public async System.Threading.Tasks.Task<string> CreateTask(TaskCreation newtask)
-        {
-            var count = this.Tasks.Count;
+        {            
             var task = new Task { 
-                Id = count++.ToString(),
+                
                 AssignedToUserId = newtask.AssignedToUserId, 
                 Detail = newtask.Detail, 
                 ProjectId = newtask.ProjectId, 
@@ -68,19 +71,20 @@ namespace GL.ProjectManagement.API.Services
 
             await System.Threading.Tasks.Task.Run(() =>
             {
-                Tasks.Add(task);
+                repository.CreateTaskAsync(task);
             });
             return $"Task created successfully with id:{task.Id}";
         }
 
         public async System.Threading.Tasks.Task<bool> DeleteTask(string id)
         {
+            var TaskToRemove = await repository.GetTaskByIdAsync(int.Parse(id));
             return await System.Threading.Tasks.Task.Run(() =>
             {
                 try
                 {
-                    var TaskToRemove = Tasks.Single(x => x.Id == id);
-                    Tasks.Remove(TaskToRemove);
+                    repository.DeleteTaskAsync(TaskToRemove);
+                    
                     return true;
                 }
                 catch
@@ -88,26 +92,25 @@ namespace GL.ProjectManagement.API.Services
                     return false;
                 }
             });
-        }       
+        }
 
         public async System.Threading.Tasks.Task<string> UpdateTask(TaskUpdate UpdatedTask)
         {
-            return await System.Threading.Tasks.Task.Run(() =>
+            var task = await repository.GetTaskByIdAsync(int.Parse(UpdatedTask.Id));
+
+
+            if (task != null)
             {
-                var task = Tasks.FirstOrDefault(x => x.Id == UpdatedTask.Id);
-                if (task != null)
-                {
-                    task.Detail = UpdatedTask.Detail;
-                    task.AssignedToUserId = UpdatedTask.AssignedToUserId;
-                    task.ProjectId = UpdatedTask.ProjectId;
-                    task.Status = UpdatedTask.Status;
-                    return task.Id;
-                }
-                else
-                {
-                    return null;
-                }
-            });
+                task.Detail = UpdatedTask.Detail;
+                task.AssignedToUserId = UpdatedTask.AssignedToUserId;
+                task.ProjectId = UpdatedTask.ProjectId;
+                task.Status = UpdatedTask.Status;
+                return await repository.UpdateTaskAsync(task);
+            }
+            else
+            {
+                return null;
+            }        
         }
     }
 }

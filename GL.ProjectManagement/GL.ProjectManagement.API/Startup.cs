@@ -37,6 +37,9 @@ namespace GL.ProjectManagement.API
             services.AddDbContext<ProjectManagementDBContext>(options => options.UseInMemoryDatabase("Database"));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+
 
 
             services.AddTransient<IUserService, UserService>();
