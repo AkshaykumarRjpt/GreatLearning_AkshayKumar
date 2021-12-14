@@ -1,4 +1,5 @@
 ﻿using GL.ProjectManagement.Domain.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,16 +8,18 @@ namespace GL.ProjectManagement.Domain.ValueObjects
 {
     public class Email : ValueObject
     {
-        public string EmailAddress { get; set; }
-        private Email()
+        public string EmailAddress { get; private set; }
+        
+        public Email()
         {
 
         }
-
+        
         static Email()
         {
 
         }
+       
         private Email(string email)
         {
             EmailAddress = email;
@@ -45,5 +48,7 @@ namespace GL.ProjectManagement.Domain.ValueObjects
         {
             return EmailAddress;
         }
+
+        
     }
 }

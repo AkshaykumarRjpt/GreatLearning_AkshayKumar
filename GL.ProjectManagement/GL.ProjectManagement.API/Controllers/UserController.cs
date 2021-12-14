@@ -1,14 +1,9 @@
-﻿using GL.ProjectManagement.API.DTOs;
-using GL.ProjectManagement.API.Interfaces;
-using GL.ProjectManagement.Domain.Data;
-using GL.ProjectManagement.Domain.Entities;
+﻿using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectMangement.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Controllers
@@ -38,9 +33,29 @@ namespace GL.ProjectManagement.API.Controllers
         //}
 
         [AllowAnonymous]
-        public override Task<IEnumerable<User>> GetAllAsync()
+        public async override Task<IEnumerable<User>> GetAllAsync()
         {
-            return base.GetAllAsync();
+            _logger.LogInformation("Fetching All Users");
+            var users = await base.GetAllAsync();            
+            foreach (var item in users)
+            {
+                item.Password = string.Empty;
+            }
+
+            return users;
+        }
+
+        public async override Task<User> GetAsync(int id)
+        {
+            var user = await base.GetAsync(id);
+            user.Password = string.Empty;
+            return user;
+        }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> UpdateAsync(User entity)
+        {
+            return base.UpdateAsync(entity);
         }
 
         //[HttpGet]

@@ -1,13 +1,9 @@
-﻿using GL.ProjectManagement.API.DTOs;
-using GL.ProjectManagement.API.Interfaces;
-using GL.ProjectManagement.Domain.Entities;
+﻿using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectMangement.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Controllers

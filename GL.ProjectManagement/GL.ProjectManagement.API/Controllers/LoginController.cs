@@ -1,16 +1,12 @@
-﻿using GL.ProjectManagement.API.DTOs;
+﻿using GL.ProjectManagement.API.DTO;
 using GL.ProjectManagement.API.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Controllers
 {
-    
+
     [ApiController]    
     public class LoginController : ControllerBase
     {

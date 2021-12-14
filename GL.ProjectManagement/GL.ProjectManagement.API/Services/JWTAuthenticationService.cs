@@ -1,21 +1,18 @@
-﻿using GL.ProjectManagement.API.DTOs;
+﻿using GL.ProjectManagement.API.DTO;
 using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.Domain.Entities;
 using GL.ProjectMangement.Repository;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GL.ProjectManagement.API.Services
 {
     public class JWTAuthenticationService : IAuthenticationService
     {
-        private readonly IUserService _userService;
         private readonly string _key;
         private readonly IRepository<User> repo;
 
