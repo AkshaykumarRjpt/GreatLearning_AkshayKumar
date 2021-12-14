@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GL.ProjectManagement.Domain.Common
 {
-    public abstract class TraceableEntity
+    public interface ITraceableEntity
     {
         public DateTime CreatedOn { get; set; }
     }

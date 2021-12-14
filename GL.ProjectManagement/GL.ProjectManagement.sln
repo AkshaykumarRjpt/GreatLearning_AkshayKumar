@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GL.ProjectManagement.API", "GL.ProjectManagement.API\GL.ProjectManagement.API.csproj", "{CED52C66-9F0D-47F3-B18E-CC18DE591FAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GL.ProjectManagement.API", "GL.ProjectManagement.API\GL.ProjectManagement.API.csproj", "{CED52C66-9F0D-47F3-B18E-CC18DE591FAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GL.ProjectManagement.Domain", "GL.ProjectManagement.Domain\GL.ProjectManagement.Domain.csproj", "{5B950868-A5C7-492F-ABD2-8BA6FE8134C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GL.ProjectManagement.Domain", "GL.ProjectManagement.Domain\GL.ProjectManagement.Domain.csproj", "{5B950868-A5C7-492F-ABD2-8BA6FE8134C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GL.ProjectMangement.Repository", "GL.ProjectMangement.Repository\GL.ProjectMangement.Repository.csproj", "{235C0569-725D-402B-BD36-753E5CA26B16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5B950868-A5C7-492F-ABD2-8BA6FE8134C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B950868-A5C7-492F-ABD2-8BA6FE8134C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B950868-A5C7-492F-ABD2-8BA6FE8134C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{235C0569-725D-402B-BD36-753E5CA26B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{235C0569-725D-402B-BD36-753E5CA26B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{235C0569-725D-402B-BD36-753E5CA26B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{235C0569-725D-402B-BD36-753E5CA26B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

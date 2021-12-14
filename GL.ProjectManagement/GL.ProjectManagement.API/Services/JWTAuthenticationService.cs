@@ -1,5 +1,7 @@
 ﻿using GL.ProjectManagement.API.DTOs;
 using GL.ProjectManagement.API.Interfaces;
+using GL.ProjectManagement.Domain.Entities;
+using GL.ProjectMangement.Repository;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -15,15 +17,16 @@ namespace GL.ProjectManagement.API.Services
     {
         private readonly IUserService _userService;
         private readonly string _key;
+        private readonly IRepository<User> repo;
 
-        public JWTAuthenticationService(IUserService userService)
-        {
-            _userService = userService;
+        public JWTAuthenticationService(IRepository<User> repo)
+        {            
             _key = "AKSHAYKUMARRAJPUT";
+            this.repo = repo;
         }
-        public async Task<string> Authenticate(LoginCredentials loginCredentials)
+        public string Authenticate(LoginCredentials loginCredentials)
         {
-            var isValidUser = await _userService.isValidUser(loginCredentials);
+            var isValidUser = repo.All().Any(u => u.Email == loginCredentials.Email && u.Password == loginCredentials.Password);
             if (!isValidUser)
             {
                 return null;

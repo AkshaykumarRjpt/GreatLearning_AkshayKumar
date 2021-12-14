@@ -5,13 +5,14 @@ using System.Text.Json.Serialization;
 
 namespace GL.ProjectManagement.Domain.Entities
 {
-    public class Task : TraceableEntity
+    public class Task : EntityBase, ITraceableEntity
     {
-        public int Id { get; set; }
+        
         public int ProjectId { get; set; }
         public Status Status { get; set; }
         public int AssignedToUserId { get; set; }
         public string Detail { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         // Navigations
 
@@ -20,5 +21,6 @@ namespace GL.ProjectManagement.Domain.Entities
 
         [JsonIgnore]
         public User User { get; set; }
+        
     }
 }

@@ -1,7 +1,9 @@
 using GL.ProjectManagement.API.Interfaces;
 using GL.ProjectManagement.API.Services;
 using GL.ProjectManagement.Domain.Data;
-using GL.ProjectManagement.Domain.Repositories;
+using GL.ProjectManagement.Domain.Entities;
+using GL.ProjectMangement.Repository;
+//using GL.ProjectManagement.Domain.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GL.ProjectManagement.API
 {
@@ -35,16 +37,13 @@ namespace GL.ProjectManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProjectManagementDBContext>(options => options.UseInMemoryDatabase("Database"));
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ITaskRepository, TaskRepository>();
-            services.AddTransient<IProjectRepository, ProjectRepository>();
+            //services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IRepository<User>, UserRepository>();
+           
+            services.AddScoped<IRepository<Task>, TaskRepository>();
+            services.AddScoped<IRepository<Project>, ProjectRepository>();
 
-
-
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ITaskService, TaskService>();
-            services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IAuthenticationService, JWTAuthenticationService>();
             services.AddAuthentication(x =>
             {

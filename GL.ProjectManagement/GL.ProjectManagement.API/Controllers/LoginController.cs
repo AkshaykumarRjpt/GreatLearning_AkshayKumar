@@ -25,10 +25,10 @@ namespace GL.ProjectManagement.API.Controllers
 
         [HttpPost]
         [Route("api/login")]
-        public async Task<IActionResult> login(LoginCredentials loginCredentials)
+        public async Task<IActionResult> Login(LoginCredentials loginCredentials)
         {
             _logger.LogInformation("Request to login");
-            var token = await _authManagerService.Authenticate(loginCredentials);
+            var token = _authManagerService.Authenticate(loginCredentials);
             if (token == null)
             {
                 return Unauthorized();

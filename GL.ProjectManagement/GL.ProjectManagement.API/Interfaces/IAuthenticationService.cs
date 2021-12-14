@@ -8,6 +8,6 @@ namespace GL.ProjectManagement.API.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<string> Authenticate(LoginCredentials loginCredentials);
+        string Authenticate(LoginCredentials loginCredentials);
     }
 }

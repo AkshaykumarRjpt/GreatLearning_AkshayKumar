@@ -6,14 +6,16 @@ using System.Text.Json.Serialization;
 
 namespace GL.ProjectManagement.Domain.Entities
 {
-    public class Project : TraceableEntity
-    {
-        public int Id { get; set; }
+    public class Project : EntityBase, ITraceableEntity
+    {      
         public string Name { get; set; }
         public string Detail { get; set; }
+
+        public DateTime CreatedOn { get; set; } 
 
         // Navigations
         [JsonIgnore]
         public List<Task> Task { get; set; }
+        
     }
 }
