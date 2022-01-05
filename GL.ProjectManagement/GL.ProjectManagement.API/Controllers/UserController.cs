@@ -53,9 +53,9 @@ namespace GL.ProjectManagement.API.Controllers
         }
 
         [AllowAnonymous]
-        public override Task<IActionResult> UpdateAsync(User entity)
+        public async override Task<IActionResult> UpdateAsync(User entity)
         {
-            return base.UpdateAsync(entity);
+            return await base.UpdateAsync(entity);
         }
 
         //[HttpGet]

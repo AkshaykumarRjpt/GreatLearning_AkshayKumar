@@ -67,7 +67,15 @@ namespace GL.ProjectManagement.API.Controllers
         public virtual async Task<IActionResult> UpdateAsync(T entity)
         {
             if (repository.Update(entity) != null)
-                return Ok("Update successful");
+                return Ok($"Update successful for id: {entity.Id}");
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public virtual async Task<IActionResult> DeleteAsync(int id)
+        {
+            if (repository.Delete(id.ToString()) != null)
+                return Ok($"id {id} Delete successful");
             return NoContent();
         }
 
