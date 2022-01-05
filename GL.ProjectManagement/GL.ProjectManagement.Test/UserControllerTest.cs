@@ -25,7 +25,7 @@ namespace GL.ProjectManagement.Test
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task UserControllerOnValidEndpointCallShouldReturnAllUsersInDb()
+        public async System.Threading.Tasks.Task UserControllerOnGETShouldReturnAllUsersInDb()
         {
             // Arrange
             using (var scope = _factory.Services.CreateScope())
