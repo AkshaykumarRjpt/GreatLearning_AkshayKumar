@@ -25,7 +25,7 @@ namespace GL.ProjectManagement.API.Controllers
         {
             _logger.LogInformation("Request to login");
             var loginResponseDTO = _authManagerService.Authenticate(loginCredentials);
-            if (loginResponseDTO.Token == null)
+            if (loginResponseDTO?.Token == null)
             {
                 return loginResponseDTO;
             }

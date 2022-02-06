@@ -17,6 +17,7 @@ namespace GL.ProjectMangement.Repository
 
         public override Task Add(Task task)
         {
+            task.CreatedOn = DateTime.Now;
             var entity = context.Add(task).Entity;
             context.SaveChanges();
             return entity;

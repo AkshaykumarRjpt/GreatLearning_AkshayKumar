@@ -58,6 +58,17 @@ namespace GL.ProjectManagement.API.Controllers
             return await base.UpdateAsync(entity);
         }
 
+        public override Task<IActionResult> DeleteAsync(int id)
+        {
+            var user = this.repo.Get(id.ToString());
+            if(user.Tasks.Count != 0)
+            {
+               return System.Threading.Tasks.Task
+                    .FromResult<IActionResult>(Conflict("User cannot be deleted as it is referred by some Tasks"));
+            }
+            return base.DeleteAsync(id);
+        }
+
         //[HttpGet]
         //[Route("api/User/{id}")]
         //public async Task<IActionResult> Get(string id)

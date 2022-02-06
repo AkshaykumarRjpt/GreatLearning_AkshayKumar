@@ -17,6 +17,7 @@ namespace GL.ProjectMangement.Repository
 
     public override Project Add(Project project)
     {
+        project.CreatedOn = DateTime.Now;
         var entity = context.Add(project).Entity;
         context.SaveChanges();
         return entity;
@@ -29,7 +30,8 @@ namespace GL.ProjectMangement.Repository
 
     public override Project Get(string id)
     {
-        return context.Projects.Where(t => t.Id == int.Parse(id)).AsNoTracking().FirstOrDefault();
+        return context.Projects.Where(t => t.Id == int.Parse(id)).AsNoTracking()
+                .Include(t=>t.Task).FirstOrDefault();
     }
 
     public override Project Update(Project entity)

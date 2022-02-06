@@ -30,11 +30,9 @@ namespace GL.ProjectManagement.Domain.Configurations
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.OwnsOne(t => t.Email, f => {
-                f.Property(p => p.EmailAddress)
-                .HasMaxLength(50)
-                .IsRequired();
-            });
+            builder.Property(t => t.Email)
+              .HasMaxLength(50)
+              .IsRequired();
 
             builder.HasMany(t => t.Tasks)
                 .WithOne(t => t.User)

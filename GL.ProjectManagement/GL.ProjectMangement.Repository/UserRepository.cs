@@ -32,7 +32,8 @@ namespace GL.ProjectMangement.Repository
 
         public override User Get(string id)
         {
-            return context.Users.Where(t => t.Id == int.Parse(id)).AsNoTracking().FirstOrDefault();
+            return context.Users.Where(t => t.Id == int.Parse(id)).AsNoTracking()
+                .Include(t=>t.Tasks).FirstOrDefault();
         }
 
         public override User Update(User entity)
@@ -44,7 +45,7 @@ namespace GL.ProjectMangement.Repository
                 user.FirstName = entity.FirstName;
                 user.LastName = entity.LastName;
                 user.Password = entity.Password;
-                user.Email = Email.Address(entity.Email);
+                user.Email = entity.Email;
                 var updatedentity = context.Users.Update(entity).Entity;
                 context.SaveChanges();
                 return updatedentity;

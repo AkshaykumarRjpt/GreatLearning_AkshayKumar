@@ -29,6 +29,18 @@ namespace GL.ProjectManagement.API.Controllers
             return base.GetAllAsync();
         }
 
+        public override Task<IActionResult> DeleteAsync(int id)
+        {
+            var user = this.repo.Get(id.ToString());
+            if(user.Task.Count != 0)
+            {
+               return System.Threading.Tasks.Task
+                    .FromResult<IActionResult>(Conflict("Project cannot be deleted as it is referred by the some tasks"));
+            }
+
+            return base.DeleteAsync(id);
+        }
+
         //    [HttpGet]
         //    [Route("api/Project")]
         //    public async Task<IActionResult> GetAll()
