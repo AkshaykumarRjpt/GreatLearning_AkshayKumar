@@ -1,0 +1,30 @@
+<div class="container">
+    <br/>
+    <br/>
+  <div class="d-flex" margin="50px"> 
+     <a [routerLink]="['add-edit-project']"><span><fa-icon  [icon]="faPlusCircle" size="1x">
+    </fa-icon></span></a> <b>New Project</b>
+    <br/>
+    <br/>
+   </div>
+  
+<table class="table table-bordered" *ngIf="projects">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Detail</th>
+        <th scope="col">Created On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="mat-row" *ngFor="let project of projects" (click)="editProject(+project.id)" >
+        <th scope="row">{{project.id}}</th>
+        <td>{{project.name}}</td>
+        <td>{{project.detail}}</td>
+        <td>{{project.createdOn | date:'M/d/yy, h:mm a'}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>

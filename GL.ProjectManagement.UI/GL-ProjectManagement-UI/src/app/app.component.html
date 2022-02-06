@@ -1,0 +1,21 @@
+<nav-bar></nav-bar>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div *ngIf="isLoggedIn()" class="bg-light border-right" id="sidebar-wrapper" >
+      
+      <div class="list-group list-group-flush">
+        <a href="/users-info" class="list-group-item list-group-item-action bg-light">Users</a>
+        <a href="/projects-info" class="list-group-item list-group-item-action bg-light">Project</a>
+        <a href="/tasks-info" class="list-group-item list-group-item-action bg-light">Tasks</a>      
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">     
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->

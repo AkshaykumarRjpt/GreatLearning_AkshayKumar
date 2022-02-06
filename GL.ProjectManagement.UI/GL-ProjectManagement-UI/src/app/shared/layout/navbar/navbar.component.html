@@ -1,0 +1,8 @@
+<nav *ngIf="isLoggedIn()" class="navbar navbar-expand-sm" style="background-color: #e3f2fd;" >
+    <div class="container-fluid">
+        <a class="navbar-brand" href="javascript:void(0)">Hello {{getUserName()}}</a>
+        <form class="d-flex">
+            <button class="btn btn-primary" type="button" (click) ="logout()" >Logout</button>
+        </form>
+    </div>
+</nav>

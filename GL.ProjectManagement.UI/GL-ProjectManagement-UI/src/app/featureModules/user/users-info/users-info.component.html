@@ -1,0 +1,30 @@
+<div class="container">
+    <br/>
+    <br/>
+  <div class="d-flex" margin="50px"> 
+     <a [routerLink]="['add-edit-user']"><span><fa-icon  [icon]="faPlusCircle" size="1x">
+    </fa-icon></span></a> <b>New User</b>
+    <br/>
+    <br/>
+   </div>
+  
+<table class="table table-bordered" *ngIf="users">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="mat-row" *ngFor="let user of users" (click)="editUser(user.id)" >
+        <th scope="row">{{user.id}}</th>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.email}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>

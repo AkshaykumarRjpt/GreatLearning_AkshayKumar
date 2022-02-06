@@ -1,0 +1,34 @@
+<div class="container">
+    <br/>
+    <br/>
+  <div class="d-flex" margin="50px"> 
+     <a [routerLink]="['add-edit-task']"><span><fa-icon  [icon]="faPlusCircle" size="1x">
+    </fa-icon></span></a> <b>New Task</b>
+    <br/>
+    <br/>
+   </div>
+  
+<table class="table table-bordered" *ngIf="tasks">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Project</th>
+        <th scope="col">Details</th>
+        <th scope="col">AssignedtoUser</th>
+        <th scope="col">Status</th>
+        <th scope="col">CreatedOn</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="mat-row" *ngFor="let task of displayTasks" (click)="editask(+task.id)" >
+        <th scope="row">{{task.id}}</th>
+        <td>{{task.projectName}}</td>
+        <td>{{task.detail}}</td>
+        <td>{{task.assignedToUser}}</td>
+        <td>{{task.status}}</td>
+        <td>{{task.createdOn | date:'M/d/yy, h:mm a'}}</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>

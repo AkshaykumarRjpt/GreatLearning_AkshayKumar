@@ -1,0 +1,108 @@
+
+<div class="row" style="height: 100px;">
+    <div class="col align-self-center">
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+                <b>{{userinfo}}</b>
+                <form class="d-flex">
+                    <button class="btn btn-primary nav-item" type="button" style="margin-right: 20px;" [routerLink]="['/users-info']">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="editmode" type="button" form="newUserForm" (click)="onDelete()" style="margin-right: 20px;" >Delete</button>
+                    <button class="btn btn-primary" type="submit" form="newUserForm" >
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1">
+
+                        </span>Save</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row g-3" style="background-color: gray;">
+    <form id="newUserForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+                <div class="col-md-1">                
+                </div>
+
+                <div class="col-md-1">
+                    <label for="firstName">First Name</label> 
+                </div>
+                <div class="col-md-3">
+                    <input type="text" formControlName="firstName" class="form-control" id="first-name" [(ngModel)]="user.firstName" 
+                    [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback" style="background-color:black;" >
+                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
+                </div>
+        
+                <div class="col-md-2">
+                </div>    
+                <div class="col-md-1">
+                    <label for="lastName">Last Name</label> 
+                </div>
+                <div class="col-md-3">
+                    <input type="text" formControlName="lastName" class="form-control" id="lastName" [(ngModel)]="user.lastName"/>
+                  
+                </div>
+
+                <div class="col-md-1">
+                </div>
+        </div>
+
+        <div class="row" style="height: 50px;"></div>
+        <div class="row">
+            <div class="col-md-1">                
+            </div>
+            <div class="col-md-1">
+                <label for="email">Email</label> 
+            </div>
+            <div class="col-md-3">
+                <input type="email" class="form-control" formControlName="email" id="email" [(ngModel)]="user.email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback" style="background-color:black;" >
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height: 30px;"></div>
+        <div class="row">
+            <div class="col-md-1">                
+            </div>
+            <div class="col-md-1">
+                <label for="password">Password</label> 
+            </div>
+            <div class="col-md-3">
+                <input type="password"  formControlName="password" class="form-control" id="password" 
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback" style="background-color:black;" >
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+            </div>
+           
+        </div>
+        
+        <div class="row" style="height: 30px;"></div>
+        <div class="row" style="height: 40px;" >
+            <div class="col-md-1">                
+            </div>
+            <div class="col-md-1">
+                <label for="confirmPassword"> Confirm Password</label> 
+            </div>
+            <div class="col-md-3">
+                
+                <input type="password" class="form-control" id="confirmPassword"  formControlName="confirmPassword" [(ngModel)]="confirmedpass"
+                [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback" style="background-color:black;">
+                    <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                    <div *ngIf="f.confirmPassword.errors.confirmedValidator">Passwords must match</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height: 100px;"></div>
+       
+    </form>
+   
+</div>
+
+

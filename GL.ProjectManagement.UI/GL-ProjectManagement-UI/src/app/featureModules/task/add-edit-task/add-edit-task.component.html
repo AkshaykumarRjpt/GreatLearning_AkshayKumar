@@ -1,0 +1,83 @@
+<div class="row" style="height: 100px;">
+    <div class="col align-self-center">
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+                <b>{{title}}</b>
+                <form class="d-flex">
+                    <button class="btn btn-primary nav-item" type="button" style="margin-right: 20px;" [routerLink]="['/tasks-info']">Cancel</button>
+                    <button class="btn btn-primary" *ngIf="editmode" type="button" form="newprojectForm" (click)="onDelete()" style="margin-right: 20px;" >Delete</button>
+                    <button class="btn btn-primary" type="submit" form="newprojectForm" >
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1">
+
+                        </span>Save</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="row g-3" style="background-color: gray;">
+    <form id="newprojectForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <label for="projectId">Project</label> 
+            </div>
+            <div class="col-md-3">
+                <select class="custom-select form-group" formControlName="projectId" [(ngModel)]="taskInfo.projectId">
+                    <option value="" disabled>Project</option>
+                    <option *ngFor="let project of projects" [ngValue]="project.id">{{project.name}}</option>
+                 </select>
+
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback" style="background-color:black;" >
+                    <div *ngIf="f.name.errors.required">Project name is required</div>
+                </div>
+            </div>
+
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <label for="userid">Assigned to User</label> 
+            </div>
+            <div class="col-md-1">
+                <select class="custom-select form-group" formControlName="userid"  [(ngModel)]="taskInfo.assignedToUserId">
+                    <option value="" disabled>Assigned to User</option>
+                    <option *ngFor="let user of users" [ngValue]="user.id">{{user.firstName+" "+user.lastName}}</option>
+                 </select>
+            </div>
+        </div>
+
+        <div class="row" style="height: 30px;"></div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <label for="status">Status</label> 
+            </div>
+            <div class="col-md-4">
+                <select class="custom-select form-group" formControlName="status" [(ngModel)]="taskInfo.status">
+                    <option value="" disabled>status</option>
+                    <option *ngFor="let status of statuses" [ngValue]="status.id">{{status.name}}</option>
+                 </select>
+            </div>
+        </div>  
+        <div class="row" style="height: 80px;"></div>
+
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <label for="detail">Details</label> 
+            </div>
+            <div class="col-md-8">
+                <textarea  cols="40" rows="5" formControlName="detail" class="form-control" id="detail"  [(ngModel)]="taskInfo.detail"
+                [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
+                    <div *ngIf="submitted && f.detail.errors" class="invalid-feedback" style="background-color:black;" >
+                        <div *ngIf="f.detail.errors.required">Project details are required</div>
+                    </div>
+            </div>
+        </div> 
+
+        
+        <div class="row" style="height: 100px;"></div>
+    </form>
+</div>
