@@ -61,6 +61,15 @@ namespace GL.ProjectManagement.API
                     ValidateAudience = false
                 };
             });
+
+            services.AddCors(options => options.AddPolicy("allowed", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
@@ -103,6 +112,10 @@ namespace GL.ProjectManagement.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GL.ProjectManagement.API v1"));
             }
+
+            app.UseCors(x => x.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

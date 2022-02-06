@@ -21,17 +21,17 @@ namespace GL.ProjectManagement.API.Controllers
 
         [HttpPost]
         [Route("api/login")]
-        public async Task<IActionResult> Login(LoginCredentials loginCredentials)
+        public async Task<LoginResponseDTO> Login(LoginCredentials loginCredentials)
         {
             _logger.LogInformation("Request to login");
-            var token = _authManagerService.Authenticate(loginCredentials);
-            if (token == null)
+            var loginResponseDTO = _authManagerService.Authenticate(loginCredentials);
+            if (loginResponseDTO.Token == null)
             {
-                return Unauthorized();
+                return loginResponseDTO;
             }
             else
             {
-                return Ok(token);
+                return loginResponseDTO;
             }
         }
     }

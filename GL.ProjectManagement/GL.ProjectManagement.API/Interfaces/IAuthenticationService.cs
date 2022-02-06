@@ -4,6 +4,6 @@ namespace GL.ProjectManagement.API.Interfaces
 {
     public interface IAuthenticationService
     {
-        string Authenticate(LoginCredentials loginCredentials);
+        LoginResponseDTO Authenticate(LoginCredentials loginCredentials);
     }
 }

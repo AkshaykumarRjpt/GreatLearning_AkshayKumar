@@ -21,13 +21,14 @@ namespace GL.ProjectManagement.API.Services
             _key = "AKSHAYKUMARRAJPUT";
             this.repo = repo;
         }
-        public string Authenticate(LoginCredentials loginCredentials)
+        public LoginResponseDTO Authenticate(LoginCredentials loginCredentials)
         {
-            var isValidUser = repo.All().Any(u => u.Email == loginCredentials.Email && u.Password == loginCredentials.Password);
-            if (!isValidUser)
+            var User = repo.All().FirstOrDefault(u => u.Email == loginCredentials.Email && u.Password == loginCredentials.Password);
+            if (User == null)
             {
                 return null;
             }
+            var response = new LoginResponseDTO() { CurrentUser = User };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(_key);
@@ -40,7 +41,8 @@ namespace GL.ProjectManagement.API.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            response.Token = tokenHandler.WriteToken(token);
+            return response;
         }
     }
 }
