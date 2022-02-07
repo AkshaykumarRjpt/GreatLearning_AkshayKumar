@@ -20,9 +20,9 @@ namespace GL.ProjectManagement.Domain.Data
                         LastName = "Kumar",
                         Password = "Akshay",
                         Id = 1,
-                        Email = Email.Address("Ak@glcom")
+                        Email = "Ak@GL.com"
                     }
-                );
+                ); ;
 
                 context.Projects.Add(
                     new Project

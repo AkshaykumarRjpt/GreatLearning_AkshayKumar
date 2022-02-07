@@ -23,7 +23,7 @@ namespace GL.ProjectManagement.API.Services
         }
         public LoginResponseDTO Authenticate(LoginCredentials loginCredentials)
         {
-            var User = repo.All().FirstOrDefault(u => u.Email == loginCredentials.Email && u.Password == loginCredentials.Password);
+            var User = repo.All().FirstOrDefault(u => u.Email.ToLower() == loginCredentials.Email.ToLower() && u.Password == loginCredentials.Password);
             if (User == null)
             {
                 return null;
