@@ -62,18 +62,17 @@ export class AddEditComponent implements OnInit {
    }
 
   onDelete(){
-
-    this.UserService.deleteUser(this.selecteduserid)
-    .pipe(first())
-    .subscribe({next: (message)=> {
-      alert(message);
-      this.router.navigate(['../'], { relativeTo: this.route });
-    }, 
-    error: (res)=>{ 
-      alert(res.error);
+      if(confirm("Are you sure you want to Delete "+ this.user.firstName)) {
+      this.UserService.deleteUser(this.selecteduserid)
+      .pipe(first())
+      .subscribe({next: (message)=> {
+        alert(message);
+        this.router.navigate(['../'], { relativeTo: this.route });
+      }, 
+      error: (res)=>{ 
+        alert(res.error);
+      }});
     }
-  });
-
   }
 
 
@@ -85,31 +84,27 @@ export class AddEditComponent implements OnInit {
       }
 
       if(this.editmode){
-        this.UserService.updateUser(this.selecteduserid, this.form.value)
-        .pipe(first())
-        .subscribe({next: (message)=> {
+        if(confirm("Are you sure you want to update "+this.user.firstName)) {
+            this.UserService.updateUser(this.selecteduserid, this.form.value)
+            .pipe(first())
+            .subscribe({next: (message)=> {
+              alert("User " + message);
+              this.router.navigate(['../'], { relativeTo: this.route });
 
-          alert(message);
-          this.router.navigate(['../'], { relativeTo: this.route });
-
-        }, 
-        error: (res)=>{ 
-
-
+            }, 
+            error: (res)=>{ 
+            }});
         }
-      });
       }
       else{
-
-          console.log(this.form.value)
           this.UserService.addUser(this.form.value)
           .pipe(first())
           .subscribe({next: (message)=> {
             alert('User Created with id ' + message.id);
             this.router.navigate(['../'], { relativeTo: this.route });
-          }, error: ()=>{ 
-          }
-        });
+          }, 
+          error: ()=>{ 
+          }});
       }
   }
 
@@ -120,11 +115,8 @@ export class AddEditComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.minLength(6), this.editmode ? Validators.nullValidator:  Validators.required ]],
       confirmPassword: ['', this.editmode ? Validators.nullValidator:  Validators.required]
-  }, {
-      validator: ConfirmedValidator('password','confirmPassword' )
-  });
-
-
+      }, {
+          validator: ConfirmedValidator('password','confirmPassword' )
+      });
   }
-
 }

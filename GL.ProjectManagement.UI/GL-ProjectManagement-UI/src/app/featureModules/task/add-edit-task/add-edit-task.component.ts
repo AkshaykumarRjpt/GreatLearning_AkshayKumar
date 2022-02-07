@@ -75,18 +75,17 @@ export class AddEditTaskComponent implements OnInit {
   }
 
   onDelete(){
-    this.taskService.deleteTask(this.selectedTaskid)
-    .pipe(first())
-    .subscribe({next: (message)=> {
-      alert(message);
-      this.router.navigate(['../'], { relativeTo: this.route });
+    if(confirm("Are you sure you want to delete Task")) {
+      this.taskService.deleteTask(this.selectedTaskid)
+      .pipe(first())
+      .subscribe({next: (message)=> {
+        alert("Task "+ message);
+        this.router.navigate(['../'], { relativeTo: this.route });
 
-    }, 
-    error: (res)=>{ 
-
-
+      }, 
+      error: (res)=>{ }
+      });
     }
-  });
   }
   
   onSubmit(){
@@ -98,15 +97,15 @@ export class AddEditTaskComponent implements OnInit {
     }
 
     if(this.editmode){
-      this.taskService.updateTask(this.selectedTaskid,this.form.value)
-      .pipe(first())
-      .subscribe({next: (message)=> {
-        alert(message);
-        this.router.navigate(['../'], { relativeTo: this.route });
-      }, 
-      error: (res)=>{ 
+      if(confirm("Are you sure you want to Update Task")) {
+        this.taskService.updateTask(this.selectedTaskid,this.form.value)
+        .pipe(first())
+        .subscribe({next: (message)=> {
+          alert("Task "+message);
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }, 
+        error: (res)=>{ } });
       }
-      });
     }
     else{
 
@@ -116,12 +115,9 @@ export class AddEditTaskComponent implements OnInit {
       .subscribe({next: (message)=> {
         alert('Task created with id ' + message.id);
         this.router.navigate(['../'], { relativeTo: this.route });
-      }, error: ()=>{ 
-
-      }
-    });
+      }, error: ()=>{ }
+      });
     }
-
   }
 
   initialize(){

@@ -48,7 +48,6 @@ namespace GL.ProjectManagement.API.Controllers
         public async override Task<User> GetAsync(int id)
         {
             var user = await base.GetAsync(id);
-            user.Password = string.Empty;
             return user;
         }
 

@@ -36,7 +36,6 @@ export class AddEditProjectComponent implements OnInit {
         this.projectservice.getProject(this.selectedProjectid)
         .subscribe(result=>{
           this.projectInfo = JSON.parse(JSON.stringify(result))
-          
           this.title = this.projectInfo.name
           this.editmode = true
         });
@@ -47,19 +46,18 @@ export class AddEditProjectComponent implements OnInit {
   }
 
   onDelete(){
-    this.projectservice.deleteProject(this.selectedProjectid)
-    .pipe(first())
-    .subscribe({next: (message)=> {
-      alert(message);
-      this.router.navigate(['../'], { relativeTo: this.route });
+      if(confirm("Are you sure you want to Delete "+this.projectInfo.name)) {
+      this.projectservice.deleteProject(this.selectedProjectid)
+      .pipe(first())
+      .subscribe({next: (message)=> {
+        alert(message);
+        this.router.navigate(['../'], { relativeTo: this.route });
 
-    }, 
-    error: (res)=>{ 
-
-      alert(res.error);
-    }
-  });
-
+      }, 
+      error: (res)=>{ 
+        alert(res.error);}
+      });
+    } 
   }
 
   onSubmit(){
@@ -70,15 +68,17 @@ export class AddEditProjectComponent implements OnInit {
     }
 
     if(this.editmode){
-      this.projectservice.upadteProject(this.selectedProjectid,this.form.value)
-      .pipe(first())
-      .subscribe({next: (message)=> {
-        alert(message);
-        this.router.navigate(['../'], { relativeTo: this.route });
-      }, 
-      error: (res)=>{ 
+        if(confirm("Are you sure you want to update "+this.projectInfo.name)) {
+        this.projectservice.upadteProject(this.selectedProjectid,this.form.value)
+        .pipe(first())
+        .subscribe({next: (message)=> {
+          alert("Project " + message);
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }, 
+        error: (res)=>{ 
+        }
+        });
       }
-      });
     }
     else{
 
