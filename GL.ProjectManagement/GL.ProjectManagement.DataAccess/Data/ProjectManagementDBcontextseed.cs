@@ -20,27 +20,54 @@ namespace GL.ProjectManagement.Domain.Data
                         LastName = "Kumar",
                         Password = "Akshay",
                         Id = 1,
-                        Email = "Ak@GL.com"
-                    }
-                ); ;
+                        Email = "Akshay@GL.com"
+                    });
+
+                context.Users.Add(
+                    new User
+                    {
+                        FirstName = "Shubham",
+                        LastName = "Kumar",
+                        Password = "Shubham",
+                        Id = 2,
+                        Email = "Shubham@GL.com"
+                    });
 
                 context.Projects.Add(
                     new Project
                     {
                         Id = 1,
                         Name = "GL Project",
-                        Detail = "Sprint2"
-                    }
-                );
+                        Detail = "Sprint1"
+                    });
+                context.Projects.Add(
+                    new Project
+                    {
+                        Id = 2,
+                        Name = "GL Project Dotnet",
+                        Detail = "Dotnet",
+                        CreatedOn = DateTime.Now
+                    });
+                context.Projects.Add(
+                    new Project
+                    {
+                        Id = 3,
+                        Name = "GL Project Azure",
+                        Detail = "Azure",
+                        CreatedOn = DateTime.Now.AddDays(-1)
+                    });
+                
 
                 context.Tasks.Add(
                     new Task
                     {
                         Id = 1,
                         ProjectId = 1,
-                        Detail = "some detail",
+                        Detail = "Sprint 1",
                         Status = 0,
-                        AssignedToUserId = 1
+                        AssignedToUserId = 1,
+                        CreatedOn = DateTime.Now
+
                     }
                     );
                 context.Tasks.Add(
@@ -48,9 +75,10 @@ namespace GL.ProjectManagement.Domain.Data
                     {
                         Id = 2,
                         ProjectId = 1,
-                        Detail = "some detail",
+                        Detail = "Sprint 2",
                         Status = 0,
-                        AssignedToUserId = 1
+                        AssignedToUserId = 1,
+                        CreatedOn = DateTime.Now.AddDays(-3)
                     }
                     );
                 await context.SaveChangesAsync();
