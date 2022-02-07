@@ -39,8 +39,17 @@ export class LoginComponent {
     this.authenticationService.login(this.f.email.value, this.f.password.value)
     .pipe(first())
     .subscribe(
-        data => {
-            this.router.navigate(['users-info']);
+        data => { 
+          if(data == null) {
+          // this.router.navigate([' '])
+           this.error = "Invalid UserName or Password"
+           this.loading = false
+           this.submitted = false
+         }
+         else{
+           this.router.navigate(['users-info']);
+         }
+           
         },
         error => {
             this.error = error;
